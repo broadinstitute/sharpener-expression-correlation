@@ -1,0 +1,14 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /api                        controllers.ApiDocController.api
+
+
+#Functions for Transformer API
+POST     /expression_correlation/transform                     controllers.TransformerApiController.transformPost()
+GET     /expression_correlation/transformer_info                     controllers.TransformerApiController.transformerInfoGet()
+
+# Map static resources from the /public folder to the /assets URL path
+GET /assets/*file           controllers.Assets.at(file)
+GET /versionedAssets/*file  controllers.Assets.versioned(file)
