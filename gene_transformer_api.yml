@@ -1,10 +1,10 @@
 swagger: '2.0'
 info:
-  title: API for remove-gene filter
+  title: API for expression-correlation expander
   version: 1.2.0
-  description: API for remove-gene filter.
+  description: API for expression-correlation expander.
 host: sharpener.ncats.io
-basePath: /remove_genes_filter
+basePath: /expression_correlation
 schemes:
 - "https"
 
