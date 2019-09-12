@@ -14,7 +14,7 @@ $genes     = $ARGV[2];
 
 $genes =~ s/NCBIGene://g;
 
-@output = split /\n/, `$python $dirname/runBigGim.py $maxNumber $tisues $genes`;
+@output = split /\n/, `$python $dirname/runBigGIM.py $maxNumber $tisues $genes`;
 
 @outGenes = split /', '/, $output[$#output];
 

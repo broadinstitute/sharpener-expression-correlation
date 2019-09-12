@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 
 import apimodels.Attribute;
 import apimodels.GeneInfo;
+import apimodels.GeneInfoIdentifiers;
 import apimodels.Parameter;
 import apimodels.Property;
 import apimodels.TransformerInfo;
@@ -18,7 +19,7 @@ import apimodels.TransformerQuery;
 
 public class Transformer {
 
-	private static final String NAME   = "Expression correlation";
+	private static final String NAME   = "Big GIM expression correlation";
 	private static final String TOTAL  = "total";
 	private static final String TISSUE = "tissue";
 	private static final String DEFAUL_TOTAL  = "100";
@@ -81,7 +82,7 @@ public class Transformer {
 
 		Runtime rt = Runtime.getRuntime();
 
-		String[] commands = {"perl", "scripts/runBigGim_expander.pl", myTOTAL, myTISSUE, myGENES.toString()};
+		String[] commands = {"perl", "scripts/runBigGIM_expander.pl", myTOTAL, myTISSUE, myGENES.toString()};
 
 		try {
 			Process proc = rt.exec(commands);
@@ -92,8 +93,10 @@ public class Transformer {
 			//Read the gene list from expander
 			String s;
 			while ((s = stdInput.readLine()) != null) {
-				GeneInfo gene = new GeneInfo().geneId("NCBIgene:" + s);
-				gene.addAttributesItem(new Attribute().name("entrez_gene_id").value(s).source("expression_correlation"));
+				String geneId = "NCBIGene:" + s;
+				GeneInfo gene = new GeneInfo().geneId(geneId);
+				gene.addAttributesItem(new Attribute().name("source").value(NAME).source(NAME));
+				gene.setIdentifiers(new GeneInfoIdentifiers().entrez(geneId));
 				genes.add(gene); 
 			}
 
