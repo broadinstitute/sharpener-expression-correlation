@@ -1,13 +1,10 @@
 package transformer;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.io.InputStreamReader;
-import java.io.BufferedReader;
 
 import apimodels.Attribute;
 import apimodels.GeneInfo;
@@ -25,7 +22,6 @@ public class Transformer {
 	private static final String DEFAUL_TOTAL  = "100";
 	private static final String DEFAUL_TISSUE = "pancreas";
 
-	private static HashMap<String,ArrayList<GeneInfo>> geneSets = new HashMap<String,ArrayList<GeneInfo>>();
 
 	public static TransformerInfo transformerInfo() {
 
@@ -71,13 +67,16 @@ public class Transformer {
 				myTISSUE = property.getValue();
 			}
 		}
-		
+
 		StringBuilder myGENES = new StringBuilder("");
 		ArrayList<GeneInfo> genes = new ArrayList<GeneInfo>();
+		HashMap<String,GeneInfo> inputGenes = new HashMap<String,GeneInfo>();
 		for (GeneInfo geneInfo : query.getGenes()) {
-			if(geneInfo.getIdentifiers() != null && geneInfo.getIdentifiers().getEntrez() != null) {
+			if (geneInfo.getIdentifiers() != null && geneInfo.getIdentifiers().getEntrez() != null) {
 				myGENES.append(myGENES.toString().equals("") ? "" : ",").append(geneInfo.getIdentifiers().getEntrez());
+				inputGenes.put(geneInfo.getIdentifiers().getEntrez(), geneInfo);
 			}
+			genes.add(geneInfo);
 		}
 
 		Runtime rt = Runtime.getRuntime();
@@ -94,19 +93,23 @@ public class Transformer {
 			String s;
 			while ((s = stdInput.readLine()) != null) {
 				String geneId = "NCBIGene:" + s;
-				GeneInfo gene = new GeneInfo().geneId(geneId);
-				gene.addAttributesItem(new Attribute().name("source").value(NAME).source(NAME));
-				gene.setIdentifiers(new GeneInfoIdentifiers().entrez(geneId));
-				genes.add(gene); 
+				GeneInfo gene = inputGenes.get(geneId);
+				if (gene == null) {
+					gene = new GeneInfo().geneId(geneId);
+					gene.addAttributesItem(new Attribute().name("source").value(NAME).source(NAME));
+					gene.setIdentifiers(new GeneInfoIdentifiers().entrez(geneId));
+					genes.add(gene);
+					inputGenes.put(geneId, gene);
+				}
 			}
 
 			//Print any errors from the attempted command
 			while ((s = stdError.readLine()) != null) {
 				System.err.println(s);
 			}
-		}
+		} 
 		catch(Exception e) {
-			System.err.println(e.toString()); 
+			System.err.println(e.toString());
 		}
 
 		return genes;
