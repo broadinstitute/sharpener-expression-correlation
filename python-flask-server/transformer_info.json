@@ -1,0 +1,43 @@
+{
+    "name": "BigGIM gene-expression correlation",
+    "label": "BigGIM",
+    "version": "1.3.0",
+    "function": "expander",
+    "description": "Gene-list expander based on gene-expression correlation using BigGIM (http://biggim.ncats.io/api/).",
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "http://biggim.ncats.io/api/",
+        "method": "correlation"
+    },
+    "parameters": [
+      {
+        "default": "pancreas",
+        "name": "tissue",
+        "type": "string",
+        "allowed_values": [
+          "adipose_tissue",
+          "brain",
+          "liver",
+          "muscleSkeletal_muscle",
+          "pancreas",
+          "blood_platelet",
+          "cardiac_muscle",
+          "heart"
+        ],
+        "suggested_values": null,
+        "lookup_url": null
+      },
+      {
+        "default": "64",
+        "name": "total",
+        "type": "int",
+        "allowed_values": null,
+        "suggested_values": "e.g., 10, 100, 1000",
+        "lookup_url": null
+      }
+    ],
+    "required_attributes": [
+      "identifiers.entrez"
+    ]
+}
