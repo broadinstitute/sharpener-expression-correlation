@@ -1,10 +1,10 @@
 swagger: '2.0'
 info:
-  title: API for gene-list transformers
+  title: BigGIM gene-expression correlation
   version: 1.3.0
-  description: API for gene-list transformers.
+  description: Gene-list expander based on gene-expression correlation using BigGIM (http://biggim.ncats.io/api/).
 host: sharpener.ncats.io
-basePath: /<transformer-path>
+basePath: /expression_correlation
 schemes:
 - "https"
 
